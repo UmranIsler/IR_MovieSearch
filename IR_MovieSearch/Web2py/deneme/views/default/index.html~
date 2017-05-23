@@ -1,0 +1,14 @@
+{{extend 'my_layout.html'}}
+    <div class="text-center jumbotron">
+        <div class="row">
+            <h1 class="text-center"> Search Movies </h1>
+            <form action="{{=URL('default', 'search', args=1)}}" class="form-group" method="GET">
+                <div class="input-group">
+                    <input name="searchQuery" type="text" class="form-control" placeholder="Search.." required>
+                    <span class="input-group-btn">
+                        <input type='submit' value='Search' class="btn btn-warning">
+                    </span>
+                </div><!-- /input-group -->
+            </form><!-- /form-group -->
+        </div>
+    </div>

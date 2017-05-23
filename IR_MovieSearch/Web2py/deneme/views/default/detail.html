@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Movies</title>
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
+    <style>
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="text-center jumbotron">
+        <div class="row">
+            <h3 class="text-center">{{=id}}</h3>
+
+        </div>
+    </div>
+    <b>Description: </b>
+    <br><p>{{=search_result['response']['docs'][0]['description_data']}}</p>
+    <b>Title: </b>
+    <p>{{=search_result['response']['docs'][0]['title_data']}}</p>
+    <b>Actor: </b>
+    <p>{{=search_result['response']['docs'][0]['actors_data']}}</p>
+    <b>Director: </b>
+    <p>{{=search_result['response']['docs'][0]['directors_data']}}</p>
+    <b>Genre: </b>
+    <p>{{=search_result['response']['docs'][0]['genre_data']}}</p>
+    <b>Runtime: </b>
+    <p>{{=search_result['response']['docs'][0]['runtime_data']}}</p>
+    <b>Rating: </b>
+    <p>{{=search_result['response']['docs'][0]['rating_data']}}</p>
+    <b>Votes: </b>
+    <p>{{=search_result['response']['docs'][0]['votes_data']}}</p>
+
+</div>
+
+
+<script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+<script src="{{=URL('static','js/jquery.js')}}"></script>
+</body>
+</html>

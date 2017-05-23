@@ -1,0 +1,59 @@
+{{extend 'my_layout.html'}}
+<div class="text-center jumbotron">
+    <div class="row">
+        <form action="{{=URL('default', 'search', args=1)}}" class="form-group" method="GET">
+            <div class="input-group">
+                <input name="genre_data" type="hidden" value="{{if request.vars.genre_data:}}{{=request.vars.genre_data}}{{else:}}*{{pass}}">
+                <input name="searchQuery" type="text" class="form-control" placeholder="Search for..." required {{if request.vars.searchQuery:}} value="{{=request.vars.searchQuery}}" {{pass}}>
+                <span class="input-group-btn">
+                        <input type='submit' value='Search' class="btn btn-info">
+                    </span>
+            </div>
+            <!-- /input-group -->
+        </form>
+        <!-- /form-group -->
+    </div>
+    <!-- /row -->
+</div>
+<!-- /text-center -->
+<div class="container col-md-2">
+    <h3> </h3>
+    {{genres = search_result['facet_counts']['facet_fields']['genre_data']}}
+    <ul class="nav nav-pills" role="tablist">
+    {{for i in range(0, len(genres), 2):}}
+        {{if genres[i+1] != 0:}}
+            <li {{if i==request.vars.genre_data==genres[i]:}} class="active" {{pass}} role="presentation"><a href="{{=URL('default', 'search', args=1)}}?searchQuery={{=request.vars.searchQuery}}&genre_data={{=genres[i]}}"> {{=genres[i].title()}} <span class="badge">{{=genres[i+1]}}</span></a></li>
+        {{pass}}
+    {{pass}}
+    {{if request.vars.genre_data:}}
+        <li {{if i==request.vars.genre_data==genres[i]:}} class="active" {{pass}} role="presentation"><a href="{{=URL('default', 'search', args=1)}}?searchQuery={{=request.vars.searchQuery}}"> Filtreyi Temizle </a></li>
+    {{pass}}
+    </ul>
+</div>
+<div class="container col-md-10">
+    <div class="row">
+        <h3><em>{{=search_result['responseHeader']['params']['q'].split(" AND ")[-1]}}</em> araması için </h3>
+        <h4> {{=search_result['response']['numFound']}} adet sonuç bulundu. </h4>
+    </div>
+    <div class="row">
+        <table class="table table-striped">
+            {{for result in search_result['response']['docs']:}}
+            <tr>
+                <td>
+                    <span class="text-mute">{{=result['description_data'][:150]}}...</span> <a href="{{=URL('detail', args=result['id'])}}">Devamını oku...</a>
+                </td>
+            </tr>
+            {{pass}}
+        </table>
+        <nav>
+            <ul class="pagination pagination-sm">
+                {{import math}} {{for i in range(int(math.ceil(search_result['response']['numFound']/10.0))):}}
+                <li {{if i==request.args(0, cast=int)-1:}} class="active" {{pass}}>
+                    <a href="{{=URL('default', 'search', args=i+1)}}?searchQuery={{=request.vars.searchQuery}}{{if request.vars.cat:}}&cat={{=request.vars.cat}}{{pass}}">{{=i+1}}</a>
+                </li>
+                {{pass}}
+
+            </ul>
+        </nav>
+    </div>
+</div>
